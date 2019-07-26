@@ -6,7 +6,7 @@
 /* N が大きいときに必要なオプション        */
 /* icc -mcmodel=medium mat_mul_base.c */
 
-#define N	(10384LL) // 2^13
+#define N	(1024LL) // 2^13
 
 static void
 mat_set(double *m);
@@ -16,6 +16,7 @@ mat_mul(double *a, double *b, double *c,int n);
 
 static void
 mat_show(double *c);
+
 
   int
 main(int argc,char *argv[])
@@ -33,7 +34,7 @@ main(int argc,char *argv[])
   mat_set(a);
   mat_set(b);
   omp_set_num_threads(atoi(argv[1]));
-  puts("test4");
+  // puts("test4");
   mat_mul(a,b,c,N);
 
   // mat_show(c);
@@ -75,8 +76,8 @@ mat_mul(double a[N*N], double b[N*N], double c[N*N],int n)
     }
   }
 
-  printf("%d\n",threads_num);
-  scanf("%*c");
+  // printf("%d\n",threads_num);
+  // scanf("%*c");
   st_time = omp_get_wtime();
 #pragma omp parallel for private(i) num_threads(threads_num)
   for(i = 0;i < n;i+=8) {
@@ -190,12 +191,12 @@ mat_mul(double a[N*N], double b[N*N], double c[N*N],int n)
   en_time = omp_get_wtime();
 
   printf(
-      "threads=%2d time=%.6f\n",omp_get_max_threads(),en_time-st_time
+      "%.6f\n",en_time-st_time
       );
 
 }
 
-  void
+void
 mat_show(double c[N*N])
 {
   int i,j;
